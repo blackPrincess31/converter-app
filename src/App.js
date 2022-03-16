@@ -51,7 +51,13 @@ return (
 	</div>
 	<div className="container">
 		<div className="left">
-		<h3>Amount</h3>
+		
+		<input type="text"
+			placeholder="Enter the amount"
+			onChange={(e) => setInput(e.target.value)} />
+		</div>
+    <div className="right">
+		
 		<input type="text"
 			placeholder="Enter the amount"
 			onChange={(e) => setInput(e.target.value)} />
