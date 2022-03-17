@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Dropdown from 'react-dropdown';
-// import { HiSwitchHorizontal } from 'react-icons/hi';
 import 'react-dropdown/style.css';
 import './App.css';
 
@@ -24,25 +23,41 @@ useEffect(() => {
 	})
 }, [from]);
 
+
 // Calling the convert function whenever
 // a user switches the currency
+
 useEffect(() => {
 	setOptions(Object.keys(info));
 	convert();
 }, [info])
-	
+
 // Function to convert the currency
 function convert() {
 	var rate = info[to];
 	setOutput(input * rate);
 }
 
+
 // Function to switch between two currency
+// function flip() {
+// 	var temp = from;
+// 	setFrom(to);
+// 	setTo(temp);
+// }
+
 function flip() {
-	var temp = from;
-	setFrom(to);
-	setTo(temp);
+	var temp = input;
+	setInput(output);
+	setOutput(temp);
+	
 }
+
+// useEffect(() => {
+// 	setOutput(input);
+// 	flip();
+// }, [input])
+	
 
 return (
 	<div className="App">
@@ -54,24 +69,23 @@ return (
 		
 		<input type="text"
 			placeholder="Enter the amount"
-			onChange={(e) => setInput(e.target.value)} />
-		</div>
-    <div className="right">
-		
+			value={input}
+			onChange={(e) => setInput(e.target.value)}
+			onInput={()=>{convert()}}/>
 		<input type="text"
 			placeholder="Enter the amount"
-			onChange={(e) => setInput(e.target.value)} />
+			value={output}
+			onChange={(e) => setOutput(e.target.value)} 
+			onInput={()=>{flip()}}/>
 		</div>
+    
 		<div className="middle">
 		<h3>From</h3>
 		<Dropdown options={options}
 					onChange={(e) => { setFrom(e.value) }}
 		value={from} placeholder="From" />
 		</div>
-		{/* <div className="switch">
-		<HiSwitchHorizontal size="30px"
-						onClick={() => { flip()}}/>
-		</div> */}
+		
 		<div className="right">
 		<h3>To</h3>
 		<Dropdown options={options}
@@ -80,9 +94,8 @@ return (
 		</div>
 	</div>
 	<div className="result">
-		<button onClick={()=>{convert()}}>Convert</button>
-		<h2>Converted Amount:</h2>
-		<p>{input+" "+from+" = "+output.toFixed(2) + " " + to}</p>
+
+		<p>{input+" "+from+" = "+output + " " + to}</p>
 
 	</div>
 	</div>
