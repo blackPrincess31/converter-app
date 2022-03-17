@@ -24,6 +24,7 @@ useEffect(() => {
 }, [from]);
 
 
+
 // Calling the convert function whenever
 // a user switches the currency
 
@@ -40,24 +41,17 @@ function convert() {
 
 
 // Function to switch between two currency
-// function flip() {
-// 	var temp = from;
-// 	setFrom(to);
-// 	setTo(temp);
-// }
+function swap() {
+	var sw = from;
+	setFrom(to);
+	setTo(sw);
+}
 
 function flip() {
 	var temp = input;
 	setInput(output);
 	setOutput(temp);
-	
-}
-
-// useEffect(() => {
-// 	setOutput(input);
-// 	flip();
-// }, [input])
-	
+	}
 
 return (
 	<div className="App">
@@ -82,7 +76,7 @@ return (
 		<div className="middle">
 		<h3>From</h3>
 		<Dropdown options={options}
-					onChange={(e) => { setFrom(e.value) }}
+				  onChange={(e) => { setFrom(e.value) }}
 		value={from} placeholder="From" />
 		</div>
 		
@@ -92,12 +86,15 @@ return (
 					onChange={(e) => {setTo(e.value)}}
 		value={to} placeholder="To" />
 		</div>
+		<button onClick={()=> swap()}>Swap</button>
 	</div>
+
+	
 	<div className="result">
-
+		
 		<p>{input+" "+from+" = "+output + " " + to}</p>
-
 	</div>
+
 	</div>
 );
 }
