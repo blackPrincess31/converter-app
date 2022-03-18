@@ -14,7 +14,10 @@ const [to, setTo] = useState("rub");
 const [options, setOptions] = useState([]);
 const [output, setOutput] = useState(0);
 
+const Base_url = 'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/'
+
 // Calling the api whenever the dependency changes
+
 useEffect(() => {
 	Axios.get(
 `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${from}.json`)
@@ -22,7 +25,6 @@ useEffect(() => {
 	setInfo(res.data[from]);
 	})
 }, [from]);
-
 
 
 // Calling the convert function whenever
@@ -60,36 +62,40 @@ return (
 	</div>
 	<div className="container">
 		<div className="left">
-		
-		<input type="text"
-			placeholder="Enter the amount"
+		<div>
+		<h3>From</h3>
+		<Dropdown options={options}
+				  onChange={(e) => {setFrom(e.value) }}
+		value={from} placeholder="From" />
+		</div>
+		<input type="number"
+			placeholder="0"
+			defaultValue={0}
 			value={input}
 			onChange={(e) => setInput(e.target.value)}
 			onInput={()=>{convert()}}/>
-		<input type="text"
-			placeholder="Enter the amount"
-			value={output}
-			onChange={(e) => setOutput(e.target.value)} 
-			onInput={()=>{flip()}}/>
 		</div>
-    
-		<div className="middle">
-		<h3>From</h3>
-		<Dropdown options={options}
-				  onChange={(e) => { setFrom(e.value) }}
-		value={from} placeholder="From" />
-		</div>
-		
-		<div className="right">
+		<div className='right'>
+		<div>
 		<h3>To</h3>
 		<Dropdown options={options}
-					onChange={(e) => {setTo(e.value)}}
-		value={to} placeholder="To" />
+			onChange={(e) => {setTo(e.value)}}
+		value={to} placeholder="To" />	
+       <input type="number"
+			placeholder="0"
+			defaultValue={0}
+			value={output}
+			onChange={(e) => setInput(e.target.value)} 
+			onInput={()=>{convert()}}
+			/>
+			
 		</div>
-		<button onClick={()=> swap()}>Swap</button>
+		</div>
+		
+		
 	</div>
 
-	
+	<button onClick={()=> swap()}>Swap</button>
 	<div className="result">
 		
 		<p>{input+" "+from+" = "+output + " " + to}</p>
