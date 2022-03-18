@@ -90,7 +90,7 @@ return (
 			onChange={(e) => setInput(e.target.value)} 
 			onInput={()=>{convert()}}
 			/>
-			
+			<h4 className='current'> Current Rate = {info[to]}</h4>
 		</div>
 		</div>
 	</div>
