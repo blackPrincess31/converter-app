@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect,useState } from 'react';
 import Axios from 'axios';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -13,11 +13,9 @@ const [to, setTo] = useState("rub");
 const [options, setOptions] = useState([]);
 const [output, setOutput] = useState(0);
 
-const Base_url = 'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/'
-
-// Calling the api whenever the dependency changes
 
 useEffect(() => {
+
 	Axios.get(
 `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${from}.json`)
 .then((res) => {
@@ -25,23 +23,15 @@ useEffect(() => {
 	})
 }, [from]);
 
-
-// Calling the convert function whenever
-// a user switches the currency
-
 useEffect(() => {
 	setOptions(Object.keys(info));
-	convert();
 }, [info])
 
-// Function to convert the currency
 function convert() {
 	var rate = info[to];
 	setOutput(input * rate);
 }
 
-
-// Function to switch between two currency
 function swap() {
 	var sw = from;
 	setFrom(to);
@@ -49,10 +39,13 @@ function swap() {
 }
 
 function flip() {
+
 	var temp = input;
 	setInput(output);
 	setOutput(temp);
+	convert()	
 	}
+
 
 return (
 	<div className="App">
@@ -68,10 +61,10 @@ return (
 		</div>
 		<input type="number"
 			placeholder="0"
-			defaultValue={0}
-			value={input}
+			value={from?input:output}
 			onChange={(e) => setInput(e.target.value)}
-			onInput={()=>{convert()}}/>
+			onInput={()=>{convert()}}
+			/>
 
 			<div className='btn'>
 			<button onClick={()=> swap()}>Swap</button>
@@ -82,13 +75,12 @@ return (
 		<div>
 		<Dropdown options={options}
 			onChange={(e) => {setTo(e.value)}}
-		value={to} placeholder="To" />	
+		    value={to} placeholder="To" />	
        <input type="number"
 			placeholder="0"
-			defaultValue={0}
-			value={output}
+			value={to? output : input}
 			onChange={(e) => setInput(e.target.value)} 
-			onInput={()=>{convert()}}
+			onInput={()=>{flip()}}
 			/>
 			<h4 className='current'> Current Rate = {info[to]}</h4>
 		</div>
