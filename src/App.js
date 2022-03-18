@@ -6,7 +6,6 @@ import './App.css';
 
 function App() {
 
-// Initializing all the state variables
 const [info, setInfo] = useState([]);
 const [input, setInput] = useState(0);
 const [from, setFrom] = useState("usd");
@@ -63,7 +62,6 @@ return (
 	<div className="container">
 		<div className="left">
 		<div>
-		<h3>From</h3>
 		<Dropdown options={options}
 				  onChange={(e) => {setFrom(e.value) }}
 		value={from} placeholder="From" />
@@ -74,10 +72,14 @@ return (
 			value={input}
 			onChange={(e) => setInput(e.target.value)}
 			onInput={()=>{convert()}}/>
+
+			<div className='btn'>
+			<button onClick={()=> swap()}>Swap</button>
+			</div>
 		</div>
+
 		<div className='right'>
 		<div>
-		<h3>To</h3>
 		<Dropdown options={options}
 			onChange={(e) => {setTo(e.value)}}
 		value={to} placeholder="To" />	
@@ -91,11 +93,11 @@ return (
 			
 		</div>
 		</div>
-		
-		
-	</div>
 
-	<button onClick={()=> swap()}>Swap</button>
+			
+	
+	</div>
+			
 	<div className="result">
 		
 		<p>{input+" "+from+" = "+output + " " + to}</p>
