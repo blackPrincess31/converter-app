@@ -22,6 +22,10 @@ const [left_value, setLeftValue] = useState('');
 const [right_value, setRightValue] = useState('');
 
 useEffect(() => {
+	document.title = `Currency Converter`;
+});
+
+useEffect(() => {
 	Axios.get(
 `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency_from}.json`)
 .then((res) => {
