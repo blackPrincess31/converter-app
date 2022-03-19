@@ -5,21 +5,21 @@ import 'react-dropdown/style.css';
 import './App.css';
 
 function App() {
-const [current_input, setCurrent] = useState();
-const [output_input, setOutput] = useState();
+const [current_input, setCurrent] = useState(0);
+const [output_input, setOutput] = useState(0);
 
 const [left_currency, setLCurrency] = useState("rub");
 const [right_currency, setRCurrency] = useState("usd");
 
 const [currency_from, setConvertFrom] = useState(left_currency);
 const [currency_to, setConvertTo] = useState(right_currency);
-const [currency_rate, setRate] = useState();
+const [currency_rate, setRate] = useState(0);
 
 const [options, setOptions] = useState([]);
 
 const [active_side, setActive] = useState('left');
-const [left_value, setLeftValue] = useState();
-const [right_value, setRightValue] = useState();
+const [left_value, setLeftValue] = useState('');
+const [right_value, setRightValue] = useState('');
 
 useEffect(() => {
 	Axios.get(
@@ -98,8 +98,8 @@ return (
 			value={right_value} 
 			onInput={(e)=>{setCurrent(e.target.value); setRightValue(e.target.value); setActive('right')}}
 			/>
-			<h4 className='current'> Current Rate = {currency_rate}</h4>
-		</div>
+		</div> 
+		   <h3 className='current'> Current Rate = {currency_rate}</h3>
 		</div>
 	</div>
 			
