@@ -18,8 +18,8 @@ const [currency_rate, setRate] = useState();
 const [options, setOptions] = useState([]);
 
 const [active_side, setActive] = useState('left');
-const [left_value, setLeftValue] = useState(0);
-const [right_value, setRightValue] = useState(0);
+const [left_value, setLeftValue] = useState();
+const [right_value, setRightValue] = useState();
 
 useEffect(() => {
 	Axios.get(
