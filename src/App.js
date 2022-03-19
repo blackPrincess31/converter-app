@@ -13,7 +13,6 @@ const [to, setTo] = useState("rub");
 const [options, setOptions] = useState([]);
 const [output, setOutput] = useState(0);
 
-
 useEffect(() => {
 
 	Axios.get(
@@ -27,9 +26,9 @@ useEffect(() => {
 	setOptions(Object.keys(info));
 }, [info])
 
-function convert() {
-	var rate = info[to];
-	setOutput(input * rate);
+function convert(from_or_to,input_or_output) {
+	var rate = info[from_or_to];
+	setOutput(input_or_output * rate);
 }
 
 function swap() {
@@ -43,7 +42,6 @@ function flip() {
 	var temp = input;
 	setInput(output);
 	setOutput(temp);
-	convert()	
 	}
 
 
@@ -61,9 +59,9 @@ return (
 		</div>
 		<input type="number"
 			placeholder="0"
-			value={from?input:output}
+			value={input}
 			onChange={(e) => setInput(e.target.value)}
-			onInput={()=>{convert()}}
+			onInput={()=>{convert(to,input)}}
 			/>
 
 			<div className='btn'>
@@ -78,9 +76,9 @@ return (
 		    value={to} placeholder="To" />	
        <input type="number"
 			placeholder="0"
-			value={to? output : input}
-			onChange={(e) => setInput(e.target.value)} 
-			onInput={()=>{flip()}}
+			value={output}
+			onChange={(e) => setOutput(e.target.value)} 
+			onInput={()=>{convert(from,output)}}
 			/>
 			<h4 className='current'> Current Rate = {info[to]}</h4>
 		</div>
