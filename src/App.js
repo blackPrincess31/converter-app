@@ -5,15 +5,15 @@ import 'react-dropdown/style.css';
 import './App.css';
 
 function App() {
-const [current_input, setCurrent] = useState(0);
-const [output_input, setOutput] = useState(0);
+const [current_input, setCurrent] = useState();
+const [output_input, setOutput] = useState();
 
 const [left_currency, setLCurrency] = useState("rub");
 const [right_currency, setRCurrency] = useState("usd");
 
 const [currency_from, setConvertFrom] = useState(left_currency);
 const [currency_to, setConvertTo] = useState(right_currency);
-const [currency_rate, setRate] = useState(0);
+const [currency_rate, setRate] = useState();
 
 const [options, setOptions] = useState([]);
 
@@ -76,11 +76,10 @@ return (
 
 		</div>
 		<input type="number"
-			id='left_input'
 			placeholder="0"
 			value={left_value}
 			
-			onInput={(e)=>{setCurrent(e.target.value); setActive('left')}}
+			onInput={(e)=>{setCurrent(e.target.value); setLeftValue(e.target.value); setActive('left')}}
 			/>
 
 			<div className='btn'>
@@ -95,10 +94,9 @@ return (
 		    value={right_currency}/>	
 
        <input type="number"
-	   		id='right_input'
 			placeholder="0"
 			value={right_value} 
-			onInput={(e)=>{setCurrent(e.target.value); setActive('right')}}
+			onInput={(e)=>{setCurrent(e.target.value); setRightValue(e.target.value); setActive('right')}}
 			/>
 			<h4 className='current'> Current Rate = {currency_rate}</h4>
 		</div>
