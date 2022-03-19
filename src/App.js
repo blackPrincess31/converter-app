@@ -5,45 +5,62 @@ import 'react-dropdown/style.css';
 import './App.css';
 
 function App() {
+const [current_input, setCurrent] = useState(0);
+const [output_input, setOutput] = useState(0);
 
-const [info, setInfo] = useState([]);
-const [input, setInput] = useState(0);
-const [from, setFrom] = useState("usd");
-const [to, setTo] = useState("rub");
+const [left_currency, setLCurrency] = useState("rub");
+const [right_currency, setRCurrency] = useState("usd");
+
+const [currency_from, setConvertFrom] = useState(left_currency);
+const [currency_to, setConvertTo] = useState(right_currency);
+const [currency_rate, setRate] = useState(0);
+
 const [options, setOptions] = useState([]);
-const [output, setOutput] = useState(0);
+
+const [active_side, setActive] = useState('left');
+const [left_value, setLeftValue] = useState(0);
+const [right_value, setRightValue] = useState(0);
 
 useEffect(() => {
-
 	Axios.get(
-`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${from}.json`)
+`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currency_from}.json`)
 .then((res) => {
-	setInfo(res.data[from]);
-	})
-}, [from]);
+	setRate(res.data[currency_from][currency_to]);
+	setOptions(Object.keys(res.data[currency_from]));
+})
+}, [currency_to, currency_from]);
 
 useEffect(() => {
-	setOptions(Object.keys(info));
-}, [info])
+	setOutput(current_input * currency_rate)
+}, [currency_rate, current_input])
 
-function convert(from_or_to,input_or_output) {
-	var rate = info[from_or_to];
-	setOutput(input_or_output * rate);
-}
-
-function swap() {
-	var sw = from;
-	setFrom(to);
-	setTo(sw);
-}
-
-function flip() {
-
-	var temp = input;
-	setInput(output);
-	setOutput(temp);
+useEffect(() => {
+	if(active_side == 'left'){
+		setConvertFrom(left_currency);
+		setConvertTo(right_currency);
 	}
+	if(active_side == 'right'){
+		setConvertFrom(right_currency);
+		setConvertTo(left_currency);
+	}
+}, [active_side, right_currency, left_currency])
 
+useEffect(() => {
+	if(active_side == 'left'){
+		setLeftValue(current_input);
+		setRightValue(output_input);
+	}
+	if(active_side == 'right'){
+		setLeftValue(output_input);
+		setRightValue(current_input);
+	}
+}, [output_input])
+
+function swap_currency() {
+	var sw = left_currency;
+	setLCurrency(right_currency);
+	setRCurrency(sw);
+}
 
 return (
 	<div className="App">
@@ -54,40 +71,41 @@ return (
 		<div className="left">
 		<div>
 		<Dropdown options={options}
-				  onChange={(e) => {setFrom(e.value) }}
-		value={from} placeholder="From" />
+				  onChange={(e) => {setLCurrency(e.value); setActive('left')}}
+		value={left_currency} />
+
 		</div>
 		<input type="number"
+			id='left_input'
 			placeholder="0"
-			value={input}
-			onChange={(e) => setInput(e.target.value)}
-			onInput={()=>{convert(to,input)}}
+			value={left_value}
+			
+			onInput={(e)=>{setCurrent(e.target.value); setActive('left')}}
 			/>
 
 			<div className='btn'>
-			<button onClick={()=> swap()}>Swap</button>
+			<button onClick={()=> swap_currency()}>Swap</button>
 			</div>
 		</div>
 
 		<div className='right'>
 		<div>
 		<Dropdown options={options}
-			onChange={(e) => {setTo(e.value)}}
-		    value={to} placeholder="To" />	
+			onChange={(e) => {setRCurrency(e.value); setActive('right')}}
+		    value={right_currency}/>	
+
        <input type="number"
+	   		id='right_input'
 			placeholder="0"
-			value={output}
-			onChange={(e) => setOutput(e.target.value)} 
-			onInput={()=>{convert(from,output)}}
+			value={right_value} 
+			onInput={(e)=>{setCurrent(e.target.value); setActive('right')}}
 			/>
-			<h4 className='current'> Current Rate = {info[to]}</h4>
+			<h4 className='current'> Current Rate = {currency_rate}</h4>
 		</div>
 		</div>
 	</div>
 			
 	<div className="result">
-		
-		<p>{input+" "+from+" = "+output + " " + to}</p>
 	</div>
 
 	</div>
