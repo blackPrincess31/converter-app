@@ -1,3 +1,15 @@
+Converter_currency in React
+
+-2 поля для ввода валюты (возможность вводить как правую, так и левую валюту)
+-возможность выбора валютной пары через выпадающие списки
+-отображение текущего курса обмена (секция “Current rate”)
+-кнопка “Swap”, меняющая текущую пару валют местами
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
